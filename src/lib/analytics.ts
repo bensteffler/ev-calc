@@ -10,7 +10,7 @@ export type EventType =
   | 'daily_km_entered'
   | 'electricity_rate_entered'
   | 'gas_price_entered'
-  | 'vehicle_class_selected'
+  | 'ev_model_selected'
   | 'result_viewed'
   | 'cta_clicked'
 

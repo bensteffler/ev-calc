@@ -22,7 +22,7 @@ export function Results({ results, onCtaClick }: ResultsProps) {
           Enter your daily driving distance to see results
         </p>
         <a
-          href="https://www.clutch.ca/vehicles?fuel_type=electric"
+          href="https://www.clutch.ca/cars/electric"
           onClick={onCtaClick}
           className="w-full px-6 py-3.5 font-medium rounded-full transition-colors text-center block"
           style={{ backgroundColor: '#FF464C', color: '#ffffff' }}
@@ -107,7 +107,7 @@ export function Results({ results, onCtaClick }: ResultsProps) {
 
       {/* CTA */}
       <a
-        href="https://www.clutch.ca/vehicles?fuel_type=electric"
+        href="https://www.clutch.ca/cars/electric"
         onClick={onCtaClick}
         className="w-full px-6 py-3.5 font-medium rounded-full transition-colors text-center block"
         style={{ backgroundColor: '#FF464C', color: '#ffffff' }}

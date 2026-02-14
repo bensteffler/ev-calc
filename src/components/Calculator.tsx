@@ -5,27 +5,28 @@ import { NumberInput } from './NumberInput'
 import { VehicleClassSelect } from './VehicleClassSelect'
 import { Results } from './Results'
 import { calculate } from '@/lib/calc'
-import { getVehicleClass, DEFAULTS, LIMITS } from '@/lib/constants'
+import { getEVModel, getVehicleClass, DEFAULTS, LIMITS } from '@/lib/constants'
 import { trackEvent } from '@/lib/analytics'
 
 export function Calculator() {
   const [dailyKm, setDailyKm] = useState<number>(DEFAULTS.dailyKm)
   const [electricityRate, setElectricityRate] = useState<number>(DEFAULTS.electricityRate)
   const [gasPrice, setGasPrice] = useState<number>(DEFAULTS.gasPrice)
-  const [vehicleClassId, setVehicleClassId] = useState<string>(DEFAULTS.vehicleClassId)
+  const [evModelId, setEvModelId] = useState<string>(DEFAULTS.evModelId)
 
-  const vehicleClass = getVehicleClass(vehicleClassId)
+  const evModel = getEVModel(evModelId)
+  const gasClass = getVehicleClass(evModel.gasClassId)
 
   const results = useMemo(() => {
     if (dailyKm <= 0) return null
     return calculate({
       dailyKm,
-      evEfficiency: vehicleClass.evEfficiency,
-      gasConsumption: vehicleClass.gasConsumption,
+      evEfficiency: evModel.evEfficiency,
+      gasConsumption: gasClass.gasConsumption,
       electricityRate,
       gasPrice,
     })
-  }, [dailyKm, electricityRate, gasPrice, vehicleClass])
+  }, [dailyKm, electricityRate, gasPrice, evModel, gasClass])
 
   const handleDailyKmChange = useCallback((value: number) => {
     trackEvent('input_started')
@@ -47,9 +48,9 @@ export function Calculator() {
     setGasPrice(value)
   }, [])
 
-  const handleVehicleClassChange = useCallback((value: string) => {
-    trackEvent('vehicle_class_selected', { class: value })
-    setVehicleClassId(value)
+  const handleEvModelChange = useCallback((value: string) => {
+    trackEvent('ev_model_selected', { model: value })
+    setEvModelId(value)
   }, [])
 
   const handleCtaClick = useCallback(() => {
@@ -62,8 +63,8 @@ export function Calculator() {
       <div className="bg-white rounded-xl border border-gray-200 p-6" style={{ overflow: 'visible' }}>
         <div className="space-y-6">
           <VehicleClassSelect
-            value={vehicleClassId}
-            onChange={handleVehicleClassChange}
+            value={evModelId}
+            onChange={handleEvModelChange}
           />
 
           <NumberInput
